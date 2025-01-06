@@ -183,6 +183,7 @@ void addStudent(struct Student user[], int *n){
 			printf("\tError: This Name is not valid.\n");
 			goto addName;	
 		}
+		saveStudentsToFile(file, user, *n);
 		addMail:
 		printf("\tEnter the Email: ");
 		fgets(user[add].email, sizeof(user[add].email), stdin);
@@ -295,10 +296,10 @@ void editStudent(struct Student user[], int n){
 		strcpy(temp, user[edit].name);
 		fgets(user[edit].name, sizeof(user[edit].name), stdin);
 		user[edit].name[strcspn(user[edit].name,"\n")] = '\0';
-		if(strcmp(user[edit].name, "0") == 0){
+		if(strcmp(user[edit].name, "0") == 0&&strlen(user[edit].name)==1){
 			strcpy(user[edit].name, temp);
 		}
-		for(i=0;i<strlen(user[edit].name);i++){		
+		for(i=0;i<strlen(user[edit].name);i++){
 			if(user[edit].name[i]== 32&&user[edit].name[i+1]==32){
 				printf("\tError: This Name is not valid.\n");
 				goto editName;	
@@ -312,6 +313,7 @@ void editStudent(struct Student user[], int n){
 			printf("\tError: This Name is not valid.\n");
 			goto editName;	
 		}
+		saveStudentsToFile(file, user, n);
 		editMail:
 		printf("\tEnter the new email(0 for skip): ");
 		strcpy(temp, user[edit].email);
@@ -372,8 +374,8 @@ void editStudent(struct Student user[], int n){
 	            goto editPhone;
 	        }
 	    }
-		printf("\tUpdate successfully!!\n\n");
 		saveStudentsToFile(file, user, n);
+		printf("\tUpdate successfully!!\n\n");
 		end:
 		printf("\tGo back(b)? or Exit(0)?:");
 		scanf("%s", &choice);
@@ -815,6 +817,7 @@ void editTeacher(struct Teacher teacher[], int n){
             printf("\tError: This Name is not valid.\n");
             goto editName;    
         }
+        saveTeachersToFile(file, teacher, n);
         editMail:
         printf("\tEnter the new email(0 for skip): ");
         strcpy(temp, teacher[edit].email);
